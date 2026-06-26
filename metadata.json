@@ -1,0 +1,6 @@
+{
+  "name": "BackStage - Crescimento Estratégico",
+  "description": "Página de captura de leads de alta conversão para Instagram, oferecendo diagnóstico estratégico inteligente de marketing digital e automações.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
