@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global safety net - Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global helper functions
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    
+    function isSignedIn() { 
+      return request.auth != null; 
+    }
+
+    // Validation helper for a Lead
+    function isValidLead(data) {
+      return data.keys().hasAll(['id', 'name', 'company', 'whatsapp', 'createdAt'])
+        && data.id is string && data.id.size() <= 128
+        && data.name is string && data.name.size() <= 256 && data.name.size() > 0
+        && data.company is string && data.company.size() <= 256 && data.company.size() > 0
+        && data.whatsapp is string && data.whatsapp.size() <= 50 && data.whatsapp.size() > 0;
+    }
+
+    // Rules for Leads collection
+    match /leads/{leadId} {
+      // Anyone can create a lead via public diagnostic forms
+      allow create: if isValidId(leadId) && isValidLead(request.resource.data);
+      
+      // Access to read, update or delete leads is restricted to signed-in team members
+      allow read, update, delete: if isSignedIn();
+    }
+
+    // Rules for Config collection
+    match /config/{configId} {
+      allow read, write: if isSignedIn();
+    }
+  }
+}

@@ -4,6 +4,8 @@ import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
+import { initializeApp, getApps } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 
 dotenv.config();
 
@@ -11,6 +13,142 @@ const app = express();
 const PORT = 3000;
 const LEADS_FILE = path.join(process.cwd(), "leads.json");
 const CONFIG_FILE = path.join(process.cwd(), "config.json");
+
+// Read Firebase Config safely
+const firebaseConfigPath = path.join(process.cwd(), "firebase-applet-config.json");
+let firebaseConfig: any = null;
+try {
+  if (fs.existsSync(firebaseConfigPath)) {
+    firebaseConfig = JSON.parse(fs.readFileSync(firebaseConfigPath, "utf-8"));
+  }
+} catch (err) {
+  console.error("Error reading firebase-applet-config.json:", err);
+}
+
+let firestoreDb: any = null;
+
+function getFirestoreDB() {
+  if (!firestoreDb && firebaseConfig) {
+    try {
+      let firebaseApp;
+      if (getApps().length === 0) {
+        firebaseApp = initializeApp({
+          projectId: firebaseConfig.projectId,
+        });
+      } else {
+        firebaseApp = getApps()[0];
+      }
+      firestoreDb = getFirestore(firebaseApp, firebaseConfig.firestoreDatabaseId);
+    } catch (error) {
+      console.error("Failed to initialize firebase-admin:", error);
+    }
+  }
+  return firestoreDb;
+}
+
+// Async helpers for Firestore Database persistence
+
+async function getAdminPasswordAsync(): Promise<string> {
+  try {
+    const fdb = getFirestoreDB();
+    if (fdb) {
+      const docRef = fdb.collection("config").doc("admin");
+      const docSnap = await docRef.get();
+      if (docSnap.exists) {
+        const data = docSnap.data();
+        if (data && data.adminPassword) {
+          return data.adminPassword;
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching admin password from Firestore:", error);
+  }
+  return getAdminPassword();
+}
+
+async function setAdminPasswordAsync(password: string): Promise<boolean> {
+  try {
+    const fdb = getFirestoreDB();
+    if (fdb) {
+      const docRef = fdb.collection("config").doc("admin");
+      await docRef.set({ adminPassword: password }, { merge: true });
+    }
+  } catch (error) {
+    console.error("Error setting admin password in Firestore:", error);
+  }
+  return setAdminPassword(password);
+}
+
+async function getAllLeadsAsync(): Promise<any[]> {
+  try {
+    const fdb = getFirestoreDB();
+    if (fdb) {
+      const colRef = fdb.collection("leads");
+      const snapshot = await colRef.orderBy("createdAt", "desc").get();
+      const leads: any[] = [];
+      snapshot.forEach((doc: any) => {
+        leads.push({ ...doc.data() });
+      });
+      return leads;
+    }
+  } catch (error) {
+    console.error("Error fetching leads from Firestore:", error);
+  }
+  return readLeads();
+}
+
+async function saveLeadAsync(lead: any): Promise<boolean> {
+  try {
+    const fdb = getFirestoreDB();
+    if (fdb) {
+      const docRef = fdb.collection("leads").doc(lead.id);
+      await docRef.set(lead);
+      return true;
+    }
+  } catch (error) {
+    console.error("Error saving lead to Firestore:", error);
+  }
+  const leads = readLeads();
+  leads.push(lead);
+  return writeLeads(leads);
+}
+
+async function updateLeadDiagnosticAsync(leadId: string, diagnostic: any): Promise<boolean> {
+  try {
+    const fdb = getFirestoreDB();
+    if (fdb) {
+      const docRef = fdb.collection("leads").doc(leadId);
+      await docRef.update({ diagnostic });
+      return true;
+    }
+  } catch (error) {
+    console.error("Error updating lead diagnostic in Firestore:", error);
+  }
+  const leads = readLeads();
+  const leadIndex = leads.findIndex((l) => l.id === leadId);
+  if (leadIndex !== -1) {
+    leads[leadIndex].diagnostic = diagnostic;
+    return writeLeads(leads);
+  }
+  return false;
+}
+
+async function deleteLeadAsync(leadId: string): Promise<boolean> {
+  try {
+    const fdb = getFirestoreDB();
+    if (fdb) {
+      const docRef = fdb.collection("leads").doc(leadId);
+      await docRef.delete();
+      return true;
+    }
+  } catch (error) {
+    console.error("Error deleting lead from Firestore:", error);
+  }
+  let leads = readLeads();
+  leads = leads.filter((l) => l.id !== leadId);
+  return writeLeads(leads);
+}
 
 function getAdminPassword(): string {
   try {
@@ -82,7 +220,7 @@ function writeLeads(leads: any[]): boolean {
 }
 
 // API: Register Lead
-app.post("/api/leads", (req, res) => {
+app.post("/api/leads", async (req, res) => {
   try {
     const { name, company, whatsapp, instagram, segment, challenges, source } = req.body;
 
@@ -90,7 +228,6 @@ app.post("/api/leads", (req, res) => {
       return res.status(400).json({ error: "Nome, Empresa e WhatsApp são obrigatórios." });
     }
 
-    const leads = readLeads();
     const newLead = {
       id: "lead_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9),
       name,
@@ -104,8 +241,7 @@ app.post("/api/leads", (req, res) => {
       diagnostic: null
     };
 
-    leads.push(newLead);
-    writeLeads(leads);
+    await saveLeadAsync(newLead);
 
     res.status(201).json({ success: true, leadId: newLead.id, message: "Lead registrado com sucesso!" });
   } catch (error: any) {
@@ -227,12 +363,7 @@ app.post("/api/diagnostico", async (req, res) => {
 
     // Update lead record with diagnostic if leadId is provided
     if (leadId) {
-      const leads = readLeads();
-      const leadIndex = leads.findIndex((l) => l.id === leadId);
-      if (leadIndex !== -1) {
-        leads[leadIndex].diagnostic = diagnosticData;
-        writeLeads(leads);
-      }
+      await updateLeadDiagnosticAsync(leadId, diagnosticData);
     }
 
     res.json(diagnosticData);
@@ -243,16 +374,16 @@ app.post("/api/diagnostico", async (req, res) => {
 });
 
 // API: Get All Leads for Admin
-app.post("/api/admin/leads", (req, res) => {
+app.post("/api/admin/leads", async (req, res) => {
   try {
     const { pin } = req.body;
     // Check against dynamically saved password (defaults to ADMIN_PIN or "1234")
-    const currentPassword = getAdminPassword();
+    const currentPassword = await getAdminPasswordAsync();
     if (pin !== currentPassword) {
       return res.status(401).json({ error: "Acesso não autorizado. Senha de acesso inválida." });
     }
 
-    const leads = readLeads();
+    const leads = await getAllLeadsAsync();
     res.json({ success: true, leads });
   } catch (error: any) {
     res.status(500).json({ error: error.message || "Erro ao listar leads." });
@@ -260,17 +391,15 @@ app.post("/api/admin/leads", (req, res) => {
 });
 
 // API: Delete Lead for Admin
-app.post("/api/admin/leads/delete", (req, res) => {
+app.post("/api/admin/leads/delete", async (req, res) => {
   try {
     const { pin, leadId } = req.body;
-    const currentPassword = getAdminPassword();
+    const currentPassword = await getAdminPasswordAsync();
     if (pin !== currentPassword) {
       return res.status(401).json({ error: "Acesso não autorizado." });
     }
 
-    let leads = readLeads();
-    leads = leads.filter((l) => l.id !== leadId);
-    writeLeads(leads);
+    await deleteLeadAsync(leadId);
 
     res.json({ success: true, message: "Lead excluído com sucesso." });
   } catch (error: any) {
@@ -279,10 +408,10 @@ app.post("/api/admin/leads/delete", (req, res) => {
 });
 
 // API: Change Admin Password
-app.post("/api/admin/change-password", (req, res) => {
+app.post("/api/admin/change-password", async (req, res) => {
   try {
     const { currentPin, newPin } = req.body;
-    const currentPassword = getAdminPassword();
+    const currentPassword = await getAdminPasswordAsync();
     if (currentPin !== currentPassword) {
       return res.status(401).json({ error: "Senha de acesso atual incorreta." });
     }
@@ -290,7 +419,7 @@ app.post("/api/admin/change-password", (req, res) => {
       return res.status(400).json({ error: "A nova senha deve possuir pelo menos 4 caracteres." });
     }
 
-    setAdminPassword(newPin.trim());
+    await setAdminPasswordAsync(newPin.trim());
     res.json({ success: true, message: "Senha de acesso alterada com sucesso!" });
   } catch (error: any) {
     res.status(500).json({ error: error.message || "Erro ao alterar senha." });
