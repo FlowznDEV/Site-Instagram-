@@ -316,16 +316,13 @@ export default function App() {
               </motion.div>
 
               {/* Bento Grid Services with clean monochrome minimalist styling */}
-              <motion.div 
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-80px" }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* 1. Redes Sociais */}
                 <motion.div 
-                  variants={itemVariants}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
                   className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group relative overflow-hidden"
                 >
@@ -343,7 +340,10 @@ export default function App() {
 
                 {/* 2. Automação Comercial */}
                 <motion.div 
-                  variants={itemVariants}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                   whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
                   className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group relative overflow-hidden"
                 >
@@ -361,7 +361,10 @@ export default function App() {
 
                 {/* 3. Tráfego Pago */}
                 <motion.div 
-                  variants={itemVariants}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                   whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
                   className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group relative overflow-hidden"
                 >
@@ -379,7 +382,10 @@ export default function App() {
 
                 {/* 4. Captação de Leads */}
                 <motion.div 
-                  variants={itemVariants}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
                   className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group md:col-span-1 lg:col-span-1 relative overflow-hidden"
                 >
@@ -397,7 +403,10 @@ export default function App() {
 
                 {/* 5. Planos Personalizados */}
                 <motion.div 
-                  variants={itemVariants}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
                   whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
                   className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group md:col-span-2 lg:col-span-2 relative overflow-hidden"
                 >
@@ -412,7 +421,7 @@ export default function App() {
                     Nenhum negócio de sucesso cresce com fórmulas genéricas. Eu analiso o cenário real da sua empresa e configuro um pacote customizado combinando exatamente as soluções que você precisa para bater suas metas.
                   </p>
                 </motion.div>
-              </motion.div>
+              </div>
             </section>
 
             {/* Growth System Section - Highly formatted and luxury feel */}
