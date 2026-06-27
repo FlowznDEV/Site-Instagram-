@@ -46,85 +46,27 @@ function getFirestoreDB() {
   return firestoreDb;
 }
 
-// Async helpers for Firestore Database persistence
+// Async helpers for JSON Database persistence (bypassing Firestore as requested to avoid credential and connection errors)
 
 async function getAdminPasswordAsync(): Promise<string> {
-  try {
-    const fdb = getFirestoreDB();
-    if (fdb) {
-      const docRef = fdb.collection("config").doc("admin");
-      const docSnap = await docRef.get();
-      if (docSnap.exists) {
-        const data = docSnap.data();
-        if (data && data.adminPassword) {
-          return data.adminPassword;
-        }
-      }
-    }
-  } catch (error) {
-    console.error("Error fetching admin password from Firestore:", error);
-  }
   return getAdminPassword();
 }
 
 async function setAdminPasswordAsync(password: string): Promise<boolean> {
-  try {
-    const fdb = getFirestoreDB();
-    if (fdb) {
-      const docRef = fdb.collection("config").doc("admin");
-      await docRef.set({ adminPassword: password }, { merge: true });
-    }
-  } catch (error) {
-    console.error("Error setting admin password in Firestore:", error);
-  }
   return setAdminPassword(password);
 }
 
 async function getAllLeadsAsync(): Promise<any[]> {
-  try {
-    const fdb = getFirestoreDB();
-    if (fdb) {
-      const colRef = fdb.collection("leads");
-      const snapshot = await colRef.orderBy("createdAt", "desc").get();
-      const leads: any[] = [];
-      snapshot.forEach((doc: any) => {
-        leads.push({ ...doc.data() });
-      });
-      return leads;
-    }
-  } catch (error) {
-    console.error("Error fetching leads from Firestore:", error);
-  }
   return readLeads();
 }
 
 async function saveLeadAsync(lead: any): Promise<boolean> {
-  try {
-    const fdb = getFirestoreDB();
-    if (fdb) {
-      const docRef = fdb.collection("leads").doc(lead.id);
-      await docRef.set(lead);
-      return true;
-    }
-  } catch (error) {
-    console.error("Error saving lead to Firestore:", error);
-  }
   const leads = readLeads();
   leads.push(lead);
   return writeLeads(leads);
 }
 
 async function updateLeadDiagnosticAsync(leadId: string, diagnostic: any): Promise<boolean> {
-  try {
-    const fdb = getFirestoreDB();
-    if (fdb) {
-      const docRef = fdb.collection("leads").doc(leadId);
-      await docRef.update({ diagnostic });
-      return true;
-    }
-  } catch (error) {
-    console.error("Error updating lead diagnostic in Firestore:", error);
-  }
   const leads = readLeads();
   const leadIndex = leads.findIndex((l) => l.id === leadId);
   if (leadIndex !== -1) {
@@ -135,16 +77,6 @@ async function updateLeadDiagnosticAsync(leadId: string, diagnostic: any): Promi
 }
 
 async function deleteLeadAsync(leadId: string): Promise<boolean> {
-  try {
-    const fdb = getFirestoreDB();
-    if (fdb) {
-      const docRef = fdb.collection("leads").doc(leadId);
-      await docRef.delete();
-      return true;
-    }
-  } catch (error) {
-    console.error("Error deleting lead from Firestore:", error);
-  }
   let leads = readLeads();
   leads = leads.filter((l) => l.id !== leadId);
   return writeLeads(leads);
