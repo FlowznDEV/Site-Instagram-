@@ -134,6 +134,11 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
         })
       });
 
+      const leadContentType = leadResponse.headers.get("content-type");
+      if (!leadContentType || !leadContentType.includes("application/json")) {
+        throw new Error("O servidor retornou uma resposta inválida. Por favor, tente novamente mais tarde.");
+      }
+
       const leadData = await leadResponse.json();
       if (!leadResponse.ok) {
         throw new Error(leadData.error || "Erro ao registrar lead.");
@@ -156,6 +161,10 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
               challenges: selectedChallengeLabels
             })
           });
+          const diagContentType = diagResponse.headers.get("content-type");
+          if (!diagContentType || !diagContentType.includes("application/json")) {
+            throw new Error("O servidor retornou uma resposta inválida ao gerar o diagnóstico.");
+          }
           const parsed = await diagResponse.json();
           if (!diagResponse.ok) {
             throw new Error(parsed.error || "Erro ao gerar diagnóstico.");
@@ -174,15 +183,30 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
   };
 
   return (
-    <div className="bg-[#111115] rounded-none border border-zinc-850 p-8 md:p-10 relative overflow-visible max-w-xl mx-auto shadow-[0_20px_50px_rgba(0,0,0,0.9)]">
-      {/* Editorial aesthetic spinning rotation badge */}
-      <div className="absolute -top-4 -right-4 bg-red-600 text-white w-24 h-24 rounded-full flex flex-col items-center justify-center text-center p-2 text-[10px] font-mono font-black leading-none rotate-12 uppercase select-none tracking-tighter shadow-xl z-20 hover:scale-105 transition-all">
+    <motion.div 
+      id="lead-form-container"
+      animate={{
+        borderColor: [
+          "rgba(39, 39, 42, 0.4)",      // zinc border base
+          "rgba(255, 255, 255, 0.15)",   // subtle white glow
+          "rgba(39, 39, 42, 0.4)"       // zinc border base
+        ]
+      }}
+      transition={{
+        duration: 8,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+      className="bg-black rounded-none border border-zinc-900 p-8 md:p-10 relative overflow-visible max-w-xl mx-auto"
+    >
+      {/* Editorial aesthetic monochrome rotation badge */}
+      <div className="absolute -top-4 -right-4 bg-white text-black border border-zinc-200 w-24 h-24 rounded-none flex flex-col items-center justify-center text-center p-2 text-[10px] font-mono font-bold leading-none -rotate-6 uppercase select-none tracking-tighter shadow-xl z-20 hover:scale-105 transition-all">
         <span>ESTRATÉGIA</span>
         <span className="text-[8px] tracking-widest mt-1 opacity-90">SOB MEDIDA</span>
       </div>
 
       {/* Background subtle accent */}
-      <div className="absolute top-0 left-0 w-32 h-32 bg-red-950/10 blur-2xl rounded-full pointer-events-none"></div>
+      <div className="absolute top-0 left-0 w-32 h-32 bg-zinc-800/10 blur-2xl rounded-none pointer-events-none"></div>
       
       <AnimatePresence mode="wait">
         {!loading ? (
@@ -203,7 +227,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                   <div 
                     key={i} 
                     className={`h-1 transition-all duration-300 ${
-                      i === step ? "w-8 bg-red-600" : i < step ? "w-2 bg-red-950" : "w-2 bg-zinc-800"
+                      i === step ? "w-8 bg-white" : i < step ? "w-2 bg-zinc-700" : "w-2 bg-zinc-900"
                     }`}
                   />
                 ))}
@@ -215,9 +239,9 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
               <motion.div 
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 rounded-none bg-red-950/20 border border-red-900/40 text-red-200 text-xs flex items-start gap-2.5 font-sans"
+                className="mb-6 p-4 rounded-none bg-zinc-950/40 border border-zinc-800 text-zinc-350 text-xs flex items-start gap-2.5 font-sans"
               >
-                <AlertCircle size={16} className="text-red-500 flex-shrink-0 mt-0.5" />
+                <AlertCircle size={16} className="text-zinc-500 flex-shrink-0 mt-0.5" />
                 <p>{error}</p>
               </motion.div>
             )}
@@ -239,7 +263,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                       placeholder="Ex: Pedro Moraes"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full bg-transparent border-b border-zinc-800 focus:border-red-600 text-white placeholder-zinc-700 py-2.5 text-sm transition-all focus:outline-none rounded-none px-0"
+                      className="w-full bg-transparent border-b border-zinc-800 focus:border-white text-white placeholder-zinc-800 py-2.5 text-sm transition-all focus:outline-none rounded-none px-0"
                     />
                   </div>
                 </div>
@@ -251,7 +275,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                     placeholder="Ex: BackStage Tech"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    className="w-full bg-transparent border-b border-zinc-800 focus:border-red-600 text-white placeholder-zinc-700 py-2.5 text-sm transition-all focus:outline-none rounded-none px-0"
+                    className="w-full bg-transparent border-b border-zinc-800 focus:border-white text-white placeholder-zinc-800 py-2.5 text-sm transition-all focus:outline-none rounded-none px-0"
                   />
                 </div>
 
@@ -265,12 +289,12 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                         onClick={() => setSegment(seg)}
                         className={`w-full text-left px-4 py-3 rounded-none border text-xs tracking-wider uppercase transition-all flex justify-between items-center ${
                           segment === seg 
-                            ? "bg-red-950/20 border-red-600 text-white font-bold" 
-                            : "bg-zinc-950/40 border-zinc-900 hover:border-zinc-700 text-zinc-400 hover:text-white"
+                            ? "bg-zinc-900 border-white text-white font-bold" 
+                            : "bg-black border-zinc-900 hover:border-zinc-750 text-zinc-400 hover:text-white"
                         }`}
                       >
                         {seg}
-                        {segment === seg && <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></div>}
+                        {segment === seg && <div className="w-1.5 h-1.5 bg-white animate-pulse"></div>}
                       </button>
                     ))}
                   </div>
@@ -280,7 +304,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                   <button 
                     type="button"
                     onClick={handleNext}
-                    className="w-full bg-white text-black font-black uppercase text-xs py-4 tracking-[0.2em] hover:bg-red-600 hover:text-white transition-all rounded-none flex items-center justify-center gap-2 group"
+                    className="w-full bg-white text-black font-bold uppercase text-xs py-4 tracking-[0.2em] hover:bg-zinc-200 transition-all rounded-none flex items-center justify-center gap-2 group"
                   >
                     Prosseguir
                     <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -309,7 +333,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                       placeholder="DDD + Número (Ex: 11 99999-9999)"
                       value={whatsapp}
                       onChange={(e) => setWhatsapp(e.target.value)}
-                      className="w-full bg-transparent border-b border-zinc-800 focus:border-red-600 text-white placeholder-zinc-700 pl-6 py-2.5 text-sm transition-all focus:outline-none rounded-none"
+                      className="w-full bg-transparent border-b border-zinc-800 focus:border-white text-white placeholder-zinc-700 pl-6 py-2.5 text-sm transition-all focus:outline-none rounded-none"
                     />
                   </div>
                   <p className="text-[10px] text-zinc-600 font-mono mt-2">
@@ -329,7 +353,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                       placeholder="Ex: backstage.mkt"
                       value={instagram}
                       onChange={(e) => setInstagram(e.target.value)}
-                      className="w-full bg-transparent border-b border-zinc-800 focus:border-red-600 text-white placeholder-zinc-700 pl-8 py-2.5 text-sm transition-all focus:outline-none rounded-none"
+                      className="w-full bg-transparent border-b border-zinc-800 focus:border-white text-white placeholder-zinc-700 pl-8 py-2.5 text-sm transition-all focus:outline-none rounded-none"
                     />
                   </div>
                   <p className="text-[10px] text-zinc-600 font-mono mt-2">
@@ -349,7 +373,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                   <button 
                     type="button"
                     onClick={handleNext}
-                    className="bg-white text-black font-black uppercase text-xs py-4 tracking-[0.2em] hover:bg-red-600 hover:text-white transition-all rounded-none flex items-center justify-center gap-2 group"
+                    className="bg-white text-black font-bold uppercase text-xs py-4 tracking-[0.2em] hover:bg-zinc-200 transition-all rounded-none flex items-center justify-center gap-2 group"
                   >
                     Prosseguir
                     <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -384,12 +408,12 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                             onClick={() => handleChallengeToggle(ch.id)}
                             className={`w-full text-left px-4 py-3 rounded-none border text-xs leading-normal transition-all flex items-start gap-3 ${
                               isSelected 
-                                ? "bg-red-950/20 border-red-600 text-white font-bold" 
-                                : "bg-zinc-950/45 border-zinc-900 hover:border-zinc-800 text-zinc-400 hover:text-white"
+                                ? "bg-zinc-900 border-white text-white font-bold" 
+                                : "bg-black border-zinc-900 hover:border-zinc-800 text-zinc-400 hover:text-white"
                             }`}
                           >
                             <span className={`w-4 h-4 rounded-none border flex-shrink-0 flex items-center justify-center font-mono text-[10px] ${
-                              isSelected ? "bg-red-600 border-red-500 text-white" : "border-zinc-700 bg-zinc-900"
+                              isSelected ? "bg-white border-white text-black font-bold" : "border-zinc-800 bg-black"
                             }`}>
                               {isSelected && "✓"}
                             </span>
@@ -411,10 +435,10 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                     </button>
                     <button 
                       type="submit"
-                      className="bg-red-600 hover:bg-red-700 text-white font-black uppercase text-xs py-4 tracking-[0.2em] transition-all rounded-none flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(220,38,38,0.3)] group"
+                      className="bg-white hover:bg-zinc-200 text-black font-bold uppercase text-xs py-4 tracking-[0.2em] transition-all rounded-none flex items-center justify-center gap-2 shadow-xl group"
                     >
                       Gerar Relatório
-                      <Sparkles size={14} className="text-white group-hover:scale-110 transition-transform animate-pulse" />
+                      <Sparkles size={14} className="text-black group-hover:scale-110 transition-transform" />
                     </button>
                   </div>
                 </motion.div>
@@ -432,7 +456,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
           >
             <div>
               {/* Header */}
-              <div className="flex items-center gap-2 text-red-500 border-b border-zinc-900 pb-4 mb-6 animate-pulse">
+              <div className="flex items-center gap-2 text-white border-b border-zinc-900 pb-4 mb-6 animate-pulse">
                 <Terminal size={14} />
                 <span className="font-mono text-[10px] tracking-widest uppercase">ENGRENAGEM DE ANÁLISE BACKSTAGE</span>
               </div>
@@ -446,7 +470,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.4 }}
-                      className={`${index === loadingLogs.length - 1 ? "text-red-500 font-bold" : "text-zinc-500"}`}
+                      className={`${index === loadingLogs.length - 1 ? "text-white font-bold" : "text-zinc-500"}`}
                     >
                       <span className="text-zinc-800 select-none mr-2">&gt;&gt;</span>
                       {log}
@@ -459,7 +483,7 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
             {/* Micro loading bar */}
             <div className="mt-6">
               <div className="w-full bg-zinc-950 border border-zinc-900 h-1.5 rounded-none overflow-hidden">
-                <div className="bg-red-600 h-full animate-[loading-bar_8.5s_ease-in-out_forwards]"></div>
+                <div className="bg-white h-full animate-[loading-bar_8.5s_ease-in-out_forwards]"></div>
               </div>
               <p className="text-center font-mono text-[9px] text-zinc-500 mt-2.5 uppercase tracking-widest animate-pulse">
                 Processamento Inteligente em Andamento...
@@ -468,6 +492,6 @@ export default function LeadForm({ onComplete }: LeadFormProps) {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }

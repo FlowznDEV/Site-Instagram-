@@ -26,9 +26,9 @@ export default function DiagnosticView({ diagnostic, onReset }: DiagnosticViewPr
   const [copied, setCopied] = useState(false);
 
   const scoreColor = (score: number) => {
-    if (score > 85) return "text-red-500 border-red-500/30";
-    if (score > 70) return "text-amber-500 border-amber-500/30";
-    return "text-red-600 border-red-600/30";
+    if (score > 85) return "text-white border-white/40";
+    if (score > 70) return "text-zinc-300 border-zinc-300/30";
+    return "text-zinc-400 border-zinc-400/20";
   };
 
   const getScoreLabel = (score: number) => {
@@ -117,12 +117,12 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
 
       {/* Hero Header */}
       <div className="text-center mb-12 print:mt-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-red-950/20 border border-red-900/30 text-red-500 text-[10px] font-mono uppercase tracking-[0.2em] mb-4">
-          <Sparkles size={11} className="animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-zinc-950 border border-zinc-800 text-zinc-400 text-[10px] font-mono uppercase tracking-[0.2em] mb-4">
+          <Sparkles size={11} />
           Análise de Inteligência Artificial Realizada
         </div>
         <h1 className="text-3xl md:text-5xl font-display font-black tracking-tight text-white mb-2 uppercase">
-          Diagnóstico <span className="font-serif italic font-light text-red-600 normal-case">Estratégico</span>
+          Diagnóstico <span className="font-serif italic font-light text-zinc-300 normal-case">Estratégico</span>
         </h1>
         <p className="text-zinc-400 font-sans font-light text-sm md:text-base max-w-xl mx-auto">
           Preparado especificamente para a empresa <span className="text-white font-semibold font-display">{diagnostic.companyName}</span> para acelerar captação de clientes.
@@ -133,7 +133,7 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {/* Score Card */}
         <div className="md:col-span-1 bg-[#0c0c0e] rounded-none border border-zinc-900 p-6 flex flex-col justify-between relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-5 text-red-600">
+          <div className="absolute top-0 right-0 p-4 opacity-5 text-zinc-500">
             <Zap size={100} />
           </div>
           <div>
@@ -155,7 +155,7 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
         <div className="md:col-span-2 bg-[#0c0c0e] rounded-none border border-zinc-900 p-6 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <TrendingUp size={14} className="text-red-500" />
+              <TrendingUp size={14} className="text-zinc-400" />
               <h3 className="text-zinc-400 text-[10px] font-mono tracking-[0.2em] uppercase">Posicionamento & Otimização</h3>
             </div>
             <h4 className="text-base font-display font-bold text-white uppercase mb-3">Perspectiva de Marca</h4>
@@ -164,7 +164,7 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
             </p>
           </div>
           <div className="pt-6 border-t border-zinc-900 flex items-center justify-between">
-            <span className="text-[10px] font-mono text-red-500 uppercase tracking-widest">Potencial Estimado de Escala:</span>
+            <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Potencial Estimado de Escala:</span>
             <span className="text-xs font-mono font-black text-white uppercase tracking-wider px-3 py-1.5 rounded-none bg-black border border-zinc-900">
               {diagnostic.estimatedGrowthPotential}
             </span>
@@ -180,36 +180,36 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
             onClick={() => setActiveTab("social")}
             className={`flex-1 py-4.5 px-6 text-xs font-mono uppercase tracking-[0.15em] border-b-2 transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
               activeTab === "social" 
-                ? "border-red-600 text-white bg-black/40" 
+                ? "border-white text-white bg-zinc-900/10" 
                 : "border-transparent text-zinc-500 hover:text-zinc-200"
             }`}
             id="tab-social"
           >
-            <Smartphone size={14} className={activeTab === "social" ? "text-red-500" : "text-zinc-500"} />
+            <Smartphone size={14} className={activeTab === "social" ? "text-white" : "text-zinc-500"} />
             Redes Sociais
           </button>
           <button
             onClick={() => setActiveTab("automation")}
             className={`flex-1 py-4.5 px-6 text-xs font-mono uppercase tracking-[0.15em] border-b-2 transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
               activeTab === "automation" 
-                ? "border-red-600 text-white bg-black/40" 
+                ? "border-white text-white bg-zinc-900/10" 
                 : "border-transparent text-zinc-500 hover:text-zinc-200"
             }`}
             id="tab-automation"
           >
-            <MessageSquare size={14} className={activeTab === "automation" ? "text-red-500" : "text-zinc-500"} />
+            <MessageSquare size={14} className={activeTab === "automation" ? "text-white" : "text-zinc-500"} />
             Automação Comercial
           </button>
           <button
             onClick={() => setActiveTab("traffic")}
             className={`flex-1 py-4.5 px-6 text-xs font-mono uppercase tracking-[0.15em] border-b-2 transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
               activeTab === "traffic" 
-                ? "border-red-600 text-white bg-black/40" 
+                ? "border-white text-white bg-zinc-900/10" 
                 : "border-transparent text-zinc-500 hover:text-zinc-200"
             }`}
             id="tab-traffic"
           >
-            <Layers size={14} className={activeTab === "traffic" ? "text-red-500" : "text-zinc-500"} />
+            <Layers size={14} className={activeTab === "traffic" ? "text-white" : "text-zinc-500"} />
             Tráfego Pago
           </button>
         </div>
@@ -221,7 +221,7 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
               <p className="text-zinc-500 text-[9px] font-mono uppercase tracking-[0.2em] mb-4">Estratégias de Posicionamento, Alcance e Engajamento:</p>
               {diagnostic.socialMediaAdvice.map((advice, idx) => (
                 <div key={idx} className="flex gap-4 p-5 rounded-none bg-black/20 border border-zinc-900/80 hover:border-zinc-800 transition-all">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-none bg-red-950/20 border border-red-900/30 text-red-500 font-mono text-xs flex items-center justify-center font-bold">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-none bg-zinc-950 border border-zinc-850 text-white font-mono text-xs flex items-center justify-center font-bold">
                     0{idx + 1}
                   </span>
                   <p className="text-zinc-300 text-xs leading-relaxed font-sans font-light">{advice}</p>
@@ -235,7 +235,7 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
               <p className="text-zinc-500 text-[9px] font-mono uppercase tracking-[0.2em] mb-4">Engrenagens de Atendimento e Nutrição de Leads:</p>
               {diagnostic.automationAdvice.map((advice, idx) => (
                 <div key={idx} className="flex gap-4 p-5 rounded-none bg-black/20 border border-zinc-900/80 hover:border-zinc-800 transition-all">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-none bg-red-950/20 border border-red-900/30 text-red-500 font-mono text-xs flex items-center justify-center font-bold">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-none bg-zinc-950 border border-zinc-850 text-white font-mono text-xs flex items-center justify-center font-bold">
                     0{idx + 1}
                   </span>
                   <p className="text-zinc-300 text-xs leading-relaxed font-sans font-light">{advice}</p>
@@ -249,7 +249,7 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
               <p className="text-zinc-500 text-[9px] font-mono uppercase tracking-[0.2em] mb-4">Alavancagem Comercial no Meta Ads (Instagram/Facebook):</p>
               {diagnostic.trafficAdvice.map((advice, idx) => (
                 <div key={idx} className="flex gap-4 p-5 rounded-none bg-black/20 border border-zinc-900/80 hover:border-zinc-800 transition-all">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-none bg-red-950/20 border border-red-900/30 text-red-500 font-mono text-xs flex items-center justify-center font-bold">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-none bg-zinc-950 border border-zinc-850 text-white font-mono text-xs flex items-center justify-center font-bold">
                     0{idx + 1}
                   </span>
                   <p className="text-zinc-300 text-xs leading-relaxed font-sans font-light">{advice}</p>
@@ -262,9 +262,9 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
 
       {/* Action Plan */}
       <div className="bg-[#0c0c0e] rounded-none border border-zinc-900 p-8 mb-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-1 h-full bg-red-600"></div>
+        <div className="absolute top-0 left-0 w-1 h-full bg-white"></div>
         <div className="flex items-center gap-2 mb-4">
-          <CheckCircle size={16} className="text-red-500" />
+          <CheckCircle size={16} className="text-zinc-400" />
           <h3 className="text-zinc-400 text-[10px] font-mono tracking-[0.2em] uppercase">Próximos Passos recomendados pela BackStage</h3>
         </div>
         <h4 className="text-lg font-display font-black text-white mb-6 uppercase tracking-tight">Cronograma de Ação de Alto Impacto</h4>
@@ -272,7 +272,7 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
         <div className="space-y-4">
           {diagnostic.actionPlan.map((step, idx) => (
             <div key={idx} className="flex items-start gap-4 p-4 rounded-none bg-black/10 border border-zinc-900">
-              <div className="w-5 h-5 rounded-none border border-red-500/30 text-red-500 text-xs font-bold flex items-center justify-center bg-red-950/10 mt-0.5">
+              <div className="w-5 h-5 rounded-none border border-zinc-800 text-white text-xs font-bold flex items-center justify-center bg-zinc-950 mt-0.5">
                 {idx + 1}
               </div>
               <div className="flex-1">
@@ -285,12 +285,12 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
 
       {/* CTA Box - High Converting Consultation */}
       <div className="bg-black border border-zinc-900 p-8 md:p-12 text-center relative overflow-hidden print:hidden rounded-none">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-red-950/5 blur-3xl rounded-full pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-zinc-950 blur-3xl rounded-none pointer-events-none"></div>
         
         <h3 className="text-zinc-500 text-[10px] font-mono tracking-[0.2em] uppercase mb-3">Dê o próximo passo em direção à escala</h3>
         <h2 className="text-2xl md:text-3xl font-display font-black text-white uppercase tracking-tight mb-4">
           Sua Estratégia Está Pronta. <br />
-          <span className="font-serif italic font-light text-red-600 normal-case">Vamos ativar esse sistema juntos?</span>
+          <span className="font-serif italic font-light text-zinc-300 normal-case">Vamos ativar esse sistema juntos?</span>
         </h2>
         <p className="text-zinc-400 text-xs max-w-lg mx-auto leading-relaxed mb-8 font-sans font-light">
           Esse diagnóstico gerado pela IA é o primeiro passo. No entanto, o verdadeiro diferencial está na execução cirúrgica. Agende um <span className="text-white font-medium">diagnóstico estratégico individual gratuito</span> comigo para traçarmos o plano perfeito para sua marca.
@@ -300,7 +300,7 @@ ${diagnostic.actionPlan.map((a, i) => `[ ] ${a}`).join("\n")}
           href={waLink}
           target="_blank"
           referrerPolicy="no-referrer"
-          className="inline-flex items-center gap-3 bg-red-600 text-white font-mono uppercase text-xs tracking-[0.2em] font-black px-8 py-4.5 rounded-none hover:bg-white hover:text-black transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] active:scale-98 group"
+          className="inline-flex items-center gap-3 bg-white text-black font-mono uppercase text-xs tracking-[0.2em] font-bold px-8 py-4.5 rounded-none hover:bg-zinc-200 transition-all shadow-xl active:scale-98 group"
           id="btn-whatsapp-cta"
         >
           Confirmar Diagnóstico no WhatsApp

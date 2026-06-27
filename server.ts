@@ -10,6 +10,36 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 const LEADS_FILE = path.join(process.cwd(), "leads.json");
+const CONFIG_FILE = path.join(process.cwd(), "config.json");
+
+function getAdminPassword(): string {
+  try {
+    if (fs.existsSync(CONFIG_FILE)) {
+      const config = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf-8"));
+      if (config.adminPassword) {
+        return config.adminPassword;
+      }
+    }
+  } catch (e) {
+    console.error("Error reading config file:", e);
+  }
+  return process.env.ADMIN_PIN || "1234";
+}
+
+function setAdminPassword(password: string): boolean {
+  try {
+    let config: any = {};
+    if (fs.existsSync(CONFIG_FILE)) {
+      config = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf-8"));
+    }
+    config.adminPassword = password;
+    fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2), "utf-8");
+    return true;
+  } catch (e) {
+    console.error("Error writing config file:", e);
+    return false;
+  }
+}
 
 // Parse JSON bodies
 app.use(express.json());
@@ -216,9 +246,10 @@ app.post("/api/diagnostico", async (req, res) => {
 app.post("/api/admin/leads", (req, res) => {
   try {
     const { pin } = req.body;
-    // Simple but highly effective PIN protection for the client's lead manager
-    if (pin !== "1234" && pin !== process.env.ADMIN_PIN) {
-      return res.status(401).json({ error: "Acesso não autorizado. Código PIN inválido." });
+    // Check against dynamically saved password (defaults to ADMIN_PIN or "1234")
+    const currentPassword = getAdminPassword();
+    if (pin !== currentPassword) {
+      return res.status(401).json({ error: "Acesso não autorizado. Senha de acesso inválida." });
     }
 
     const leads = readLeads();
@@ -232,7 +263,8 @@ app.post("/api/admin/leads", (req, res) => {
 app.post("/api/admin/leads/delete", (req, res) => {
   try {
     const { pin, leadId } = req.body;
-    if (pin !== "1234" && pin !== process.env.ADMIN_PIN) {
+    const currentPassword = getAdminPassword();
+    if (pin !== currentPassword) {
       return res.status(401).json({ error: "Acesso não autorizado." });
     }
 
@@ -243,6 +275,25 @@ app.post("/api/admin/leads/delete", (req, res) => {
     res.json({ success: true, message: "Lead excluído com sucesso." });
   } catch (error: any) {
     res.status(500).json({ error: error.message || "Erro ao excluir lead." });
+  }
+});
+
+// API: Change Admin Password
+app.post("/api/admin/change-password", (req, res) => {
+  try {
+    const { currentPin, newPin } = req.body;
+    const currentPassword = getAdminPassword();
+    if (currentPin !== currentPassword) {
+      return res.status(401).json({ error: "Senha de acesso atual incorreta." });
+    }
+    if (!newPin || newPin.trim().length < 4) {
+      return res.status(400).json({ error: "A nova senha deve possuir pelo menos 4 caracteres." });
+    }
+
+    setAdminPassword(newPin.trim());
+    res.json({ success: true, message: "Senha de acesso alterada com sucesso!" });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Erro ao alterar senha." });
   }
 });
 
