@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { 
-  Instagram, 
-  MessageSquare, 
-  TrendingUp, 
-  Target, 
-  ShieldCheck, 
+  Network, 
+  Cpu, 
+  LineChart, 
+  Magnet, 
+  Landmark, 
   ArrowRight,
   Info,
   ChevronDown
@@ -63,7 +63,7 @@ export default function App() {
     let result = text;
     highlights.forEach(h => {
       const regex = new RegExp(`(${h})`, "gi");
-      result = result.replace(regex, `<span class="circled-keyword">$1</span>`);
+      result = result.replace(regex, `<span class="highlighted-keyword">$1</span>`);
     });
     return <span dangerouslySetInnerHTML={{ __html: result }} />;
   };
@@ -132,10 +132,10 @@ export default function App() {
             </div>
             <div className="flex flex-col text-left">
               <span className="text-base font-display font-bold tracking-[0.25em] text-white uppercase leading-none">
-                BACK<span className="text-[#b89047] font-light">STAGE</span>
+                PEDRO<span className="text-[#b89047] font-light">TEIXEIRA</span>
               </span>
               <span className="text-[7px] font-mono tracking-[0.3em] text-[#b89047]/85 uppercase mt-1 leading-none">
-                COMERCIAL INTELIGENTE
+                ESTRATEGISTA COMERCIAL
               </span>
             </div>
           </div>
@@ -166,12 +166,12 @@ export default function App() {
 
               <motion.h1 
                 variants={itemVariants} 
-                className="text-4xl sm:text-5xl lg:text-[56px] font-display font-bold tracking-tight text-white uppercase leading-[1.2]"
+                className="text-4xl sm:text-5xl lg:text-[56px] font-display font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white via-zinc-200 to-zinc-500 uppercase leading-[1.2]"
               >
-                Nós construímos o seu{" "}
-                <span className="font-serif italic font-light text-[#e2c28a] normal-case inline-block select-none tracking-normal">
+                Eu construo o seu{" "}
+                <span className="font-serif italic font-light text-[#e2c28a] normal-case inline-block select-none tracking-normal drop-shadow-md">
                   {typedText}
-                  <span className="animate-[pulse_1s_infinite] ml-1 text-[#b89047] font-sans font-extralight">|</span>
+                  <span className="animate-[pulse_1s_infinite] ml-1 text-[#b89047] font-sans font-extralight drop-shadow-none">|</span>
                 </span>
               </motion.h1>
 
@@ -184,7 +184,7 @@ export default function App() {
                 </p>
                 
                 <p className="text-zinc-400">
-                  Na <span className="text-white font-semibold font-display">BackStage</span>, eu desenvolvo estratégias completas para que sua marca domine o mercado digital através de posicionamento estratégico, automações completas e tráfego altamente qualificado.
+                  Sou <span className="text-white font-semibold font-display">Pedro Teixeira</span>, especialista em desenvolver estratégias completas para que sua marca domine o mercado digital através de posicionamento estratégico, automações de vendas e tráfego altamente qualificado.
                 </p>
                 
                 <p className="border-l-2 border-[#b89047] pl-4 py-2 italic text-zinc-400 font-serif leading-relaxed bg-zinc-950/40 pr-3 text-left md:text-center">
@@ -206,12 +206,13 @@ export default function App() {
                   <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
                 </a>
 
-                <a
-                  href="#how-i-help"
-                  className="px-8 py-4 rounded-none bg-zinc-950 hover:bg-zinc-900 border border-zinc-900 text-zinc-300 hover:text-white transition-all text-center text-[11px] font-mono uppercase tracking-[0.18em] flex items-center justify-center"
+                <motion.button
+                  onClick={() => document.getElementById('how-i-help')?.scrollIntoView({ behavior: 'smooth' })}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 rounded-none bg-zinc-950 hover:bg-zinc-900 border border-zinc-900 text-zinc-300 hover:text-white transition-all text-center text-[11px] font-mono uppercase tracking-[0.18em] flex items-center justify-center cursor-pointer"
                 >
                   Conhecer Serviços
-                </a>
+                </motion.button>
               </motion.div>
             </motion.div>
           </div>
@@ -263,13 +264,13 @@ export default function App() {
 
               <div className="space-y-6 text-left">
                 <p>
-                  Aos 17 anos, fundou a Backstage, uma agência que visa promover a mudança da forma como o marketing está sendo visto atualmente.
+                  Aos 17 anos, iniciei minha jornada no mercado digital, focado em mudar a forma como o marketing é visto e aplicado atualmente.
                 </p>
                 <p>
-                  Também sempre foi entusiasta da tecnologia e da cultura digital, fazendo vídeos dinâmicos sobre seus jogos favoritos sempre que podia.
+                  Também sempre fui um entusiasta da tecnologia e da cultura digital, criando processos lógicos e escaláveis sempre que possível.
                 </p>
                 <p>
-                  Em 2026, decidiu pôr em prática tudo o que havia acumulado sobre marketing, abrindo uma agência 100% remota para atender os mais diversos setores do Brasil!
+                  Em 2026, consolidei tudo o que aprendi ao longo dos anos em minha consultoria pessoal, atuando de forma 100% remota para transformar negócios e atender os mais diversos setores do Brasil!
                 </p>
               </div>
             </motion.div>
@@ -284,114 +285,90 @@ export default function App() {
               transition={{ duration: 0.7 }}
               className="text-center mb-20 relative"
             >
-              <span className="text-[#b89047] font-mono text-[10px] uppercase tracking-[0.25em] block mb-2">Nosso Ecossistema</span>
+              <span className="text-[#b89047] font-mono text-[10px] uppercase tracking-[0.25em] block mb-2">Minha Metodologia</span>
               <h2 className="text-2xl md:text-3xl font-display font-bold text-white uppercase mt-1 tracking-tight">
                 Como posso alavancar sua <span className="font-serif italic font-light text-[#e2c28a] normal-case">operação</span>
               </h2>
               <div className="w-16 h-0.5 bg-[#b89047] mx-auto mt-5"></div>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Service Cards (Same content) */}
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
-                className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group relative overflow-hidden"
-              >
-                <div className="w-10 h-10 rounded-none bg-zinc-950 border border-zinc-800 text-zinc-300 flex items-center justify-center mb-6 group-hover:bg-white group-hover:text-black transition-all duration-300">
-                  <Instagram size={16} />
-                </div>
-                <h3 className="text-base font-display font-bold text-white uppercase mb-3 tracking-tight flex items-center gap-2">
-                  Gestão de Redes Sociais
-                  <span className="text-[9px] text-zinc-700 font-mono font-normal">/01</span>
-                </h3>
-                <p className="text-zinc-400 text-xs leading-relaxed font-sans font-light">
-                  Desenvolvo planejamento estratégico direcionado, produzo conteúdo original, edito vídeos de alta retenção, consolido sua identidade visual e gerencio seu Instagram para maximizar alcance e converter visitantes em leads qualificados.
-                </p>
-              </motion.div>
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-3 items-stretch justify-center min-h-[500px]">
+              {/* Service Cards (5 Pilastras) */}
+              {[
+                {
+                  icon: Network,
+                  title: "Gestão de Redes Sociais",
+                  num: "/01",
+                  desc: "Desenvolvo planejamento estratégico direcionado, produzo conteúdo original, edito vídeos de alta retenção, consolido sua identidade visual e gerencio seu Instagram para maximizar alcance e converter visitantes em leads qualificados."
+                },
+                {
+                  icon: Cpu,
+                  title: "Automação Comercial",
+                  num: "/02",
+                  desc: "Implemento fluxos automatizados de atendimento para WhatsApp e Direct. Filtre curiosos, qualifique leads, dispare mensagens automáticas e execute follow-ups precisos sem precisar de horas manuais."
+                },
+                {
+                  icon: LineChart,
+                  title: "Tráfego Pago",
+                  num: "/03",
+                  desc: "Crio e otimizo campanhas profissionais no Meta Ads com foco direto em vendas. Atraia um público altamente propenso à compra, minimize custos por lead e expanda suas vendas de forma inteligente."
+                },
+                {
+                  icon: Magnet,
+                  title: "Captação de Leads",
+                  num: "/04",
+                  desc: "Estruturo funis de captura completos com landing pages velozes e integradas. Converta tráfego disperso em contatos quentes e prontos para contato do seu time de vendas de forma totalmente automática."
+                },
+                {
+                  icon: Landmark,
+                  title: "Planos Personalizados",
+                  num: "/05",
+                  desc: "Nenhum negócio de sucesso cresce com fórmulas genéricas. Analiso o cenário real da sua empresa e configuro um pacote customizado combinando exatamente as soluções que você precisa para bater metas."
+                }
+              ].map((service, idx) => (
+                <motion.div 
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: idx * 0.1 }}
+                  whileHover={{ y: -4 }}
+                  className="flex-1 flex flex-col group relative overflow-hidden"
+                >
+                  {/* Capitel (Topo da pilastra) */}
+                  <div className="h-20 w-full border-b-4 border-double border-zinc-800 bg-zinc-950 flex items-center justify-center relative transition-colors duration-500 group-hover:border-[#b89047]/50 group-hover:bg-zinc-900 z-10">
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#b89047]/30 to-transparent"></div>
+                    <div className="w-12 h-12 rounded-full border border-zinc-800/50 flex items-center justify-center text-zinc-400 group-hover:text-[#e2c28a] group-hover:shadow-[0_0_15px_rgba(184,144,71,0.3)] transition-all duration-500">
+                      <service.icon size={20} strokeWidth={1.5} />
+                    </div>
+                  </div>
+                  
+                  {/* Fuste (Corpo da pilastra com frisos) */}
+                  <div className="flex-1 bg-black border-x border-zinc-900/50 p-6 lg:p-4 xl:p-6 relative flex flex-col justify-center items-center text-center overflow-hidden transition-colors duration-500 group-hover:border-zinc-700/50 group-hover:bg-[#030303]">
+                    {/* Linhas verticais simulando os frisos da coluna */}
+                    <div className="absolute inset-0 flex justify-evenly pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity duration-500">
+                      <div className="w-[1px] h-full bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900"></div>
+                      <div className="w-[1px] h-full bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900"></div>
+                      <div className="w-[1px] h-full bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900"></div>
+                      <div className="w-[1px] h-full bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900"></div>
+                    </div>
+                    
+                    <h3 className="text-[13px] lg:text-xs xl:text-[13px] font-display font-bold text-white uppercase mb-4 tracking-tight relative z-10 group-hover:text-[#e2c28a] transition-colors duration-300">
+                      {service.title}
+                      <span className="block text-[9px] text-zinc-600 font-mono font-normal mt-2">{service.num}</span>
+                    </h3>
+                    
+                    <p className="text-zinc-500 group-hover:text-zinc-300 text-[11px] lg:text-[10px] xl:text-[11px] leading-relaxed font-sans font-light relative z-10 transition-colors duration-300">
+                      {service.desc}
+                    </p>
+                  </div>
 
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
-                className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group relative overflow-hidden"
-              >
-                <div className="w-10 h-10 rounded-none bg-zinc-950 border border-zinc-800 text-zinc-300 flex items-center justify-center mb-6 group-hover:bg-white group-hover:text-black transition-all duration-300">
-                  <MessageSquare size={16} />
-                </div>
-                <h3 className="text-base font-display font-bold text-white uppercase mb-3 tracking-tight flex items-center gap-2">
-                  Automação Comercial
-                  <span className="text-[9px] text-zinc-700 font-mono font-normal">/02</span>
-                </h3>
-                <p className="text-zinc-400 text-xs leading-relaxed font-sans font-light">
-                  Implemento fluxos automatizados de atendimento para WhatsApp e Direct do Instagram. Filtre curiosos, qualifique leads, dispare mensagens automáticas e execute follow-ups precisos sem precisar de horas extras manuais.
-                </p>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
-                className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group relative overflow-hidden"
-              >
-                <div className="w-10 h-10 rounded-none bg-zinc-950 border border-zinc-800 text-zinc-300 flex items-center justify-center mb-6 group-hover:bg-white group-hover:text-black transition-all duration-300">
-                  <TrendingUp size={16} />
-                </div>
-                <h3 className="text-base font-display font-bold text-white uppercase mb-3 tracking-tight flex items-center gap-2">
-                  Tráfego Pago
-                  <span className="text-[9px] text-zinc-700 font-mono font-normal">/03</span>
-                </h3>
-                <p className="text-zinc-400 text-xs leading-relaxed font-sans font-light">
-                  Crio e otimizo campanhas profissionais no Meta Ads (Facebook e Instagram) com foco direto em vendas. Atraia um público altamente propenso à compra, minimize custos por lead e expanda suas vendas de forma inteligente.
-                </p>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
-                className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group md:col-span-1 lg:col-span-1 relative overflow-hidden"
-              >
-                <div className="w-10 h-10 rounded-none bg-zinc-950 border border-zinc-800 text-zinc-300 flex items-center justify-center mb-6 group-hover:bg-white group-hover:text-black transition-all duration-300">
-                  <Target size={16} />
-                </div>
-                <h3 className="text-base font-display font-bold text-white uppercase mb-3 tracking-tight flex items-center gap-2">
-                  Captação de Leads
-                  <span className="text-[9px] text-zinc-700 font-mono font-normal">/04</span>
-                </h3>
-                <p className="text-zinc-400 text-xs leading-relaxed font-sans font-light">
-                  Estruturo funis de captura completos com landing pages velozes e integradas. Converta tráfego disperso em contatos quentes e prontos para contato do seu time de vendas de forma totalmente automática.
-                </p>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-                whileHover={{ y: -4, borderColor: "rgba(255, 255, 255, 0.4)" }}
-                className="bg-black border border-zinc-900 p-8 rounded-none transition-colors duration-300 group md:col-span-2 lg:col-span-2 relative overflow-hidden"
-              >
-                <div className="w-10 h-10 rounded-none bg-zinc-950 border border-zinc-800 text-zinc-300 flex items-center justify-center mb-6 group-hover:bg-white group-hover:text-black transition-all duration-300">
-                  <ShieldCheck size={16} />
-                </div>
-                <h3 className="text-base font-display font-bold text-white uppercase mb-3 tracking-tight flex items-center gap-2">
-                  Planos Personalizados sob Demanda
-                  <span className="text-[9px] text-zinc-700 font-mono font-normal">/05</span>
-                </h3>
-                <p className="text-zinc-400 text-xs leading-relaxed font-sans font-light">
-                  Nenhum negócio de sucesso cresce com fórmulas genéricas. Eu analiso o cenário real da sua empresa e configuro um pacote customizado combinando exatamente as soluções que você precisa para bater suas metas.
-                </p>
-              </motion.div>
+                  {/* Base (Fundo da pilastra) */}
+                  <div className="h-12 w-full border-t-4 border-double border-zinc-800 bg-zinc-950 relative transition-colors duration-500 group-hover:border-[#b89047]/50 group-hover:bg-zinc-900 z-10">
+                    <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#b89047]/30 to-transparent"></div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </section>
 
@@ -419,7 +396,7 @@ export default function App() {
 
               <p className="text-white text-base md:text-lg leading-relaxed font-sans font-light">
                 {renderHighlightedText(
-                  "Construímos processos previsíveis de aquisição de clientes, unindo redes sociais qualificadas, anúncios otimizados e automação inteligente para gerar receita real.",
+                  "Construo processos previsíveis de aquisição de clientes, unindo redes sociais qualificadas, anúncios otimizados e automação inteligente para gerar receita real.",
                   ["processos previsíveis", "automação inteligente", "receita real"]
                 )}
               </p>
@@ -473,7 +450,7 @@ export default function App() {
           <span className="absolute -top-1.5 left-0 text-zinc-800 font-mono text-[10px] pointer-events-none">+</span>
           <span className="absolute -top-1.5 right-0 text-zinc-800 font-mono text-[10px] pointer-events-none">+</span>
 
-          <p className="font-mono uppercase tracking-[0.15em] text-[9px]">© {new Date().getFullYear()} BACKSTAGE. Todos os direitos reservados. Focados no crescimento exponencial de negócios.</p>
+          <p className="font-mono uppercase tracking-[0.15em] text-[9px]">© {new Date().getFullYear()} PEDRO TEIXEIRA. Todos os direitos reservados. Focado no crescimento exponencial de negócios.</p>
           
           <div className="max-w-3xl mx-auto">
             <button
@@ -491,41 +468,21 @@ export default function App() {
                 animate={{ opacity: 1, height: "auto" }}
                 className="mt-6 p-6 rounded-none bg-[#0c0c0e] border border-zinc-900 text-[10px] leading-relaxed text-zinc-500 font-mono uppercase tracking-wider text-justify"
               >
-                Marketing Digital, Agência de Marketing Digital, Gestão de Redes Sociais, Gestão de Instagram, Social Media, Automação Comercial, Automação para WhatsApp, Automação para Instagram, Tráfego Pago, Meta Ads, Captação de Leads, Geração de Leads, Funil de Vendas, Marketing para Empresas, Marketing para Pequenas Empresas, Marketing de Performance, Consultoria de Marketing, Crescimento Empresarial, Estratégia Digital, Presença Digital, Vendas Online, Gestão de Conteúdo.
+                Marketing Digital, Consultoria de Marketing, Especialista em Vendas, Estrategista de Vendas, Gestor de Tráfego, Pedro Teixeira, Gestão de Redes Sociais, Social Media, Automação Comercial, Automação para WhatsApp, Automação para Instagram, Tráfego Pago, Meta Ads, Captação de Leads, Geração de Leads, Funil de Vendas, Marketing para Empresas, Estrategista Digital, Crescimento Empresarial, Vendas Online.
               </motion.div>
             )}
           </div>
         </footer>
 
-        <div className="fixed bottom-6 right-6 z-50 print:hidden">
+        <div className="fixed bottom-6 right-6 z-50 print:hidden pointer-events-none select-none">
           <motion.div
-            animate={{ y: [0, -8, 0], scale: [1, 1.05, 1], rotate: [0, -1, 1, -1, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="relative w-12 h-12 flex items-center justify-center mix-blend-screen"
           >
-            <motion.a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.5 }}
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
-              className="flex items-center gap-3 bg-[#25D366] hover:bg-[#22c35e] text-black px-5 py-3.5 rounded-full font-bold shadow-lg transition-all duration-300 group cursor-pointer border border-emerald-400/20 relative overflow-hidden"
-              id="whatsapp-floating-button"
-            >
-              <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none" />
-
-              <span className="text-[10px] uppercase font-mono tracking-wider font-extrabold max-w-0 overflow-hidden group-hover:max-w-[140px] md:group-hover:max-w-[140px] transition-all duration-500 whitespace-nowrap text-black">
-                Falar no WhatsApp
-              </span>
-              <div className="relative flex h-5 w-5 items-center justify-center">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black/20 opacity-75"></span>
-                <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current text-black group-hover:scale-110 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.413 9.863-9.83.001-2.624-1.023-5.09-2.885-6.954C16.591 1.956 14.1 1.05 11.999 1.05c-5.444 0-9.868 4.413-9.871 9.83-.001 1.777.476 3.512 1.383 5.04l-.999 3.647 3.73-.978c1.512.825 3.02 1.229 4.305 1.229zM18.06 14.8c-.33-.165-1.956-.967-2.257-1.077-.302-.11-.522-.165-.742.165-.22.33-.853 1.077-1.046 1.3-.193.22-.386.247-.716.082-1.362-.68-2.316-1.185-3.238-2.768-.243-.417.243-.387.697-1.293.082-.165.041-.308-.02-.44-.06-.13-.522-1.258-.716-1.72-.188-.454-.378-.39-.522-.397h-.44c-.165 0-.44.06-.67.313-.23.253-.88 1.077-.88 2.632s1.127 3.052 1.282 3.26c.154.209 2.219 3.39 5.375 4.75 1.054.45 1.861.614 2.478.705.805.12 1.543.084 2.125-.002.648-.096 1.956-.8 2.231-1.57.275-.77.275-1.43.193-1.57-.083-.14-.303-.223-.633-.39z" />
-                </svg>
-              </div>
-            </motion.a>
+            <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-[#b89047]/40 to-transparent"></div>
+            <div className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-[#b89047]/40 to-transparent"></div>
+            <div className="w-2 h-2 border border-[#b89047] rotate-45 bg-[#0c0c0e]"></div>
           </motion.div>
         </div>
       </div>
