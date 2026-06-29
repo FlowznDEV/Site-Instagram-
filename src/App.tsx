@@ -8,7 +8,8 @@ import {
   Landmark, 
   ArrowRight,
   Info,
-  ChevronDown
+  ChevronDown,
+  Hexagon
 } from "lucide-react";
 
 const containerVariants = {
@@ -22,12 +23,12 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 60 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
+      duration: 1.2,
       ease: [0.16, 1, 0.3, 1],
     },
   },
@@ -78,6 +79,19 @@ export default function App() {
       <div className="absolute inset-y-0 left-4 sm:left-6 lg:left-12 w-[1px] bg-zinc-900/40 pointer-events-none z-0"></div>
       <div className="absolute inset-y-0 right-4 sm:right-6 lg:left-12 w-[1px] bg-zinc-900/40 pointer-events-none z-0"></div>
 
+      {/* Dragon Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30 mix-blend-screen flex justify-center items-center">
+        <img 
+          src="/dragao.png" 
+          alt="Marketing Digital e Crescimento Empresarial - Background" 
+          className="w-full h-full object-cover md:object-contain object-top"
+          fetchpriority="high"
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = 'none';
+          }}
+        />
+      </div>
+
       <div className="absolute top-0 inset-x-0 h-[1000px] overflow-hidden pointer-events-none z-0">
         <motion.div 
           animate={{
@@ -125,10 +139,11 @@ export default function App() {
           <span className="absolute -bottom-1.5 -right-1.5 text-zinc-800 font-mono text-[10px] pointer-events-none select-none">+</span>
 
           <div className="flex items-center gap-3 cursor-pointer group">
-            <div className="relative w-9 h-9 flex items-center justify-center border border-[#b89047]/60 group-hover:border-[#b89047] bg-black transition-colors duration-300">
+            <div className="relative w-9 h-9 flex items-center justify-center border border-[#b89047]/60 group-hover:border-[#b89047] bg-black transition-colors duration-300 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#b89047]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="absolute -top-1 -left-1 w-2 h-2 border-t border-l border-[#b89047]" />
               <div className="absolute -bottom-1 -right-1 w-2 h-2 border-b border-r border-[#b89047]" />
-              <span className="text-[#b89047] font-display font-bold text-lg tracking-tight">B</span>
+              <Hexagon className="text-[#b89047] w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-500" strokeWidth={1.5} />
             </div>
             <div className="flex flex-col text-left">
               <span className="text-base font-display font-bold tracking-[0.25em] text-white uppercase leading-none">
@@ -220,10 +235,10 @@ export default function App() {
           {/* Quem é Pedro Teixeira? Section */}
           <section id="about" className="mb-32 scroll-mt-16">
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 80 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="text-center mb-16 relative"
             >
               <span className="text-[#b89047] font-mono text-[10px] uppercase tracking-[0.25em] block mb-2">Fundador</span>
@@ -234,10 +249,10 @@ export default function App() {
             </motion.div>
 
             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-4xl mx-auto bg-black border border-zinc-900 p-8 md:p-12 text-zinc-400 leading-relaxed font-sans font-light relative flex flex-col md:flex-row items-center gap-10"
             >
               <span className="absolute top-2 left-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
@@ -250,8 +265,10 @@ export default function App() {
                   {/* The image should be named pedro.png and placed in the public folder */}
                   <img 
                     src="/pedro.png" 
-                    alt="Pedro Teixeira" 
+                    alt="Pedro Teixeira - Agência de Marketing Digital, Gestão de Redes Sociais e Tráfego Pago" 
                     className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => {
                       // Fallback if image not uploaded yet
                       (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&auto=format&fit=crop";
@@ -279,10 +296,10 @@ export default function App() {
           {/* Services Section */}
           <section id="how-i-help" className="mb-32 scroll-mt-16">
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 80 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="text-center mb-20 relative"
             >
               <span className="text-[#b89047] font-mono text-[10px] uppercase tracking-[0.25em] block mb-2">Minha Metodologia</span>
@@ -328,10 +345,10 @@ export default function App() {
               ].map((service, idx) => (
                 <motion.div 
                   key={idx}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 80 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: idx * 0.1 }}
+                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: idx * 0.15 }}
                   whileHover={{ y: -4 }}
                   className="flex-1 flex flex-col group relative overflow-hidden"
                 >
@@ -373,10 +390,10 @@ export default function App() {
           </section>
 
           <motion.section 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="mb-32 py-16 px-8 md:px-16 bg-black border border-zinc-900 rounded-none relative overflow-hidden group"
           >
             <span className="absolute top-2 left-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
@@ -420,10 +437,10 @@ export default function App() {
           </motion.section>
 
           <motion.section 
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="text-center space-y-5 max-w-2xl mx-auto mb-20 relative px-4"
           >
             <h2 className="text-xl md:text-2xl font-display font-medium text-white uppercase tracking-tight">
@@ -468,7 +485,7 @@ export default function App() {
                 animate={{ opacity: 1, height: "auto" }}
                 className="mt-6 p-6 rounded-none bg-[#0c0c0e] border border-zinc-900 text-[10px] leading-relaxed text-zinc-500 font-mono uppercase tracking-wider text-justify"
               >
-                Marketing Digital, Consultoria de Marketing, Especialista em Vendas, Estrategista de Vendas, Gestor de Tráfego, Pedro Teixeira, Gestão de Redes Sociais, Social Media, Automação Comercial, Automação para WhatsApp, Automação para Instagram, Tráfego Pago, Meta Ads, Captação de Leads, Geração de Leads, Funil de Vendas, Marketing para Empresas, Estrategista Digital, Crescimento Empresarial, Vendas Online.
+                Marketing Digital, Agência de Marketing Digital, Gestão de Redes Sociais, Gestão de Instagram, Social Media, Automação Comercial, Automação para WhatsApp, Automação para Instagram, Tráfego Pago, Meta Ads, Captação de Leads, Geração de Leads, Funil de Vendas, Marketing para Empresas, Marketing para Pequenas Empresas, Marketing de Performance, Consultoria de Marketing, Crescimento Empresarial, Estratégia Digital, Presença Digital, Vendas Online, Gestão de Conteúdo.
               </motion.div>
             )}
           </div>
