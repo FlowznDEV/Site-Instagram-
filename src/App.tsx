@@ -9,7 +9,8 @@ import {
   ArrowRight,
   Info,
   ChevronDown,
-  Hexagon
+  Hexagon,
+  GraduationCap
 } from "lucide-react";
 
 const containerVariants = {
@@ -85,7 +86,7 @@ export default function App() {
           src="/dragao.png" 
           alt="Marketing Digital e Crescimento Empresarial - Background" 
           className="w-full h-full object-cover md:object-contain object-top"
-          fetchpriority="high"
+          fetchPriority="high"
           onError={(e) => {
             (e.target as HTMLImageElement).style.display = 'none';
           }}
@@ -210,88 +211,38 @@ export default function App() {
                 </p>
               </motion.div>
 
-              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3.5 pt-4 justify-center">
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#b89047] hover:bg-white text-black font-mono uppercase text-[11px] py-4 px-8 tracking-[0.2em] font-black transition-all rounded-none flex items-center justify-center gap-2.5 shadow-[0_0_25px_rgba(184,144,71,0.25)] hover:shadow-[0_0_35px_rgba(184,144,71,0.45)] active:scale-98 group animate-bounce-subtle"
-                >
-                  🎯 SOLICITAR DIAGNÓSTICO NO WHATSAPP
-                  <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
-                </a>
+              <motion.div variants={itemVariants} className="flex flex-col gap-3.5 pt-4 items-center w-full">
+                <div className="flex flex-col sm:flex-row gap-3.5 justify-center w-full sm:w-auto">
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#b89047] hover:bg-white text-black font-mono uppercase text-[11px] py-4 px-8 tracking-[0.2em] font-black transition-all rounded-none flex items-center justify-center gap-2.5 shadow-[0_0_25px_rgba(184,144,71,0.25)] hover:shadow-[0_0_35px_rgba(184,144,71,0.45)] active:scale-98 group animate-bounce-subtle w-full sm:w-auto"
+                  >
+                    🎯 SOLICITAR DIAGNÓSTICO NO WHATSAPP
+                    <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
+                  </a>
 
+                  <motion.button
+                    onClick={() => document.getElementById('how-i-help')?.scrollIntoView({ behavior: 'smooth' })}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-4 rounded-none bg-zinc-950 hover:bg-zinc-900 border border-zinc-900 text-zinc-300 hover:text-white transition-all text-center text-[11px] font-mono uppercase tracking-[0.18em] flex items-center justify-center cursor-pointer w-full sm:w-auto"
+                  >
+                    Conhecer Serviços
+                  </motion.button>
+                </div>
+                
                 <motion.button
-                  onClick={() => document.getElementById('how-i-help')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => document.getElementById('curso')?.scrollIntoView({ behavior: 'smooth' })}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 rounded-none bg-zinc-950 hover:bg-zinc-900 border border-zinc-900 text-zinc-300 hover:text-white transition-all text-center text-[11px] font-mono uppercase tracking-[0.18em] flex items-center justify-center cursor-pointer"
+                  className="px-8 py-3 rounded-none bg-transparent hover:bg-white/5 border border-white/10 text-zinc-400 hover:text-white transition-all text-center text-[10px] font-mono uppercase tracking-[0.2em] flex items-center justify-center cursor-pointer group w-full sm:w-auto"
                 >
-                  Conhecer Serviços
+                  Conheça o Método Ready2Work
+                  <ArrowRight size={12} className="ml-2 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </motion.button>
               </motion.div>
             </motion.div>
           </div>
-
-          {/* Quem é Pedro Teixeira? Section */}
-          <section id="about" className="mb-32 scroll-mt-16">
-            <motion.div 
-              initial={{ opacity: 0, y: 80 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center mb-16 relative"
-            >
-              <span className="text-[#b89047] font-mono text-[10px] uppercase tracking-[0.25em] block mb-2">Fundador</span>
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-white uppercase mt-1 tracking-tight">
-                Quem é <span className="font-serif italic font-light text-[#e2c28a] normal-case">Pedro Teixeira?</span>
-              </h2>
-              <div className="w-16 h-0.5 bg-[#b89047] mx-auto mt-5"></div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-4xl mx-auto bg-black border border-zinc-900 p-8 md:p-12 text-zinc-400 leading-relaxed font-sans font-light relative flex flex-col md:flex-row items-center gap-10"
-            >
-              <span className="absolute top-2 left-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
-              <span className="absolute top-2 right-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
-              <span className="absolute bottom-2 left-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
-              <span className="absolute bottom-2 right-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
-
-              <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 relative group">
-                <div className="absolute inset-0 border border-zinc-800 bg-zinc-950 flex items-center justify-center overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
-                  {/* The image should be named pedro.png and placed in the public folder */}
-                  <img 
-                    src="/pedro.png" 
-                    alt="Pedro Teixeira - Agência de Marketing Digital, Gestão de Redes Sociais e Tráfego Pago" 
-                    className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-                    loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                      // Fallback if image not uploaded yet
-                      (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&auto=format&fit=crop";
-                    }}
-                  />
-                </div>
-                <div className="absolute -top-3 -left-3 w-6 h-6 border-t border-l border-[#b89047] pointer-events-none"></div>
-                <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b border-r border-[#b89047] pointer-events-none"></div>
-              </div>
-
-              <div className="space-y-6 text-left">
-                <p>
-                  Aos 17 anos, iniciei minha jornada no mercado digital, focado em mudar a forma como o marketing é visto e aplicado atualmente.
-                </p>
-                <p>
-                  Também sempre fui um entusiasta da tecnologia e da cultura digital, criando processos lógicos e escaláveis sempre que possível.
-                </p>
-                <p>
-                  Em 2026, consolidei tudo o que aprendi ao longo dos anos em minha consultoria pessoal, atuando de forma 100% remota para transformar negócios e atender os mais diversos setores do Brasil!
-                </p>
-              </div>
-            </motion.div>
-          </section>
 
           {/* Services Section */}
           <section id="how-i-help" className="mb-32 scroll-mt-16">
@@ -375,7 +326,7 @@ export default function App() {
                       <span className="block text-[9px] text-zinc-600 font-mono font-normal mt-2">{service.num}</span>
                     </h3>
                     
-                    <p className="text-zinc-500 group-hover:text-zinc-300 text-[11px] lg:text-[10px] xl:text-[11px] leading-relaxed font-sans font-light relative z-10 transition-colors duration-300">
+                    <p className="text-zinc-400 group-hover:text-zinc-200 text-xs lg:text-[11px] xl:text-xs leading-relaxed font-sans font-normal relative z-10 transition-colors duration-300">
                       {service.desc}
                     </p>
                   </div>
@@ -389,78 +340,82 @@ export default function App() {
             </div>
           </section>
 
-          <motion.section 
-            initial={{ opacity: 0, y: 80 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-32 py-16 px-8 md:px-16 bg-black border border-zinc-900 rounded-none relative overflow-hidden group"
-          >
-            <span className="absolute top-2 left-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
-            <span className="absolute top-2 right-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
-            <span className="absolute bottom-2 left-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
-            <span className="absolute bottom-2 right-2 text-zinc-800 font-mono text-[9px] pointer-events-none">+</span>
-            
-            <div className="max-w-3xl mx-auto space-y-6 text-center">
-              <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-[0.25em] block">Sua Alavanca de Negócios</span>
-              <h2 className="text-2xl md:text-3xl font-display font-medium text-white uppercase tracking-tight leading-tight">
-                Estratégia de Performance & <span className="font-serif italic font-light text-zinc-300 normal-case">Escala Comercial</span>
-              </h2>
-              
-              <p className="text-zinc-500 text-xs font-mono uppercase tracking-[0.2em]">
-                CONEXÃO INTEGRADA DA SUA MARCA AO CONSUMIDOR FINAL.
-              </p>
-
-              <p className="text-white text-base md:text-lg leading-relaxed font-sans font-light">
-                {renderHighlightedText(
-                  "Construo processos previsíveis de aquisição de clientes, unindo redes sociais qualificadas, anúncios otimizados e automação inteligente para gerar receita real.",
-                  ["processos previsíveis", "automação inteligente", "receita real"]
-                )}
-              </p>
-
-              <p className="text-zinc-500 text-xs md:text-sm leading-relaxed pt-2 font-light max-w-2xl mx-auto">
-                A estratégia ideal elimina o trabalho manual cansativo e foca diretamente naquilo que traz retorno sustentável. É exatamente esse ecossistema sólido que vou desenhar para sua marca.
-              </p>
-
-              <div className="pt-8">
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 px-8 py-4 rounded-none bg-white hover:bg-zinc-200 text-black font-mono uppercase text-xs tracking-[0.22em] font-bold transition-all duration-300"
-                >
-                  AGENDAR DIAGNÓSTICO AGORA
-                  <ArrowRight size={14} />
-                </a>
+          {/* Ready2Work Course Section */}
+          <section id="curso" className="mb-32 scroll-mt-16">
+            <motion.div 
+              initial={{ opacity: 0, y: 80 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-center mb-16 relative flex flex-col items-center animate-pulse-subtle"
+            >
+              <div className="w-12 h-12 rounded-full border border-[#b89047]/40 flex items-center justify-center text-[#e2c28a] mb-4 shadow-[0_0_15px_rgba(184,144,71,0.25)] bg-zinc-950/80">
+                <GraduationCap size={22} strokeWidth={1.5} />
               </div>
-            </div>
-          </motion.section>
+              <span className="text-[#b89047] font-mono text-[10px] uppercase tracking-[0.25em] block mb-2">Treinamento Exclusivo</span>
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-white uppercase mt-1 tracking-tight">
+                Método <span className="font-serif italic font-light text-[#e2c28a] normal-case drop-shadow-md">Ready2Work</span>
+              </h2>
+              <div className="w-16 h-0.5 bg-[#b89047] mx-auto mt-5 shadow-[0_0_10px_rgba(184,144,71,0.5)]"></div>
+            </motion.div>
 
-          <motion.section 
-            initial={{ opacity: 0, y: 80 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center space-y-5 max-w-2xl mx-auto mb-20 relative px-4"
-          >
-            <h2 className="text-xl md:text-2xl font-display font-medium text-white uppercase tracking-tight">
-              Agende um diagnóstico estratégico <span className="font-serif italic font-light text-zinc-300 normal-case">gratuito</span>
-            </h2>
-            <p className="text-zinc-400 text-sm leading-relaxed font-light max-w-lg mx-auto">
-              Analiso pessoalmente o posicionamento do seu negócio no digital para mapear pontos de melhoria, automações viáveis e o caminho ideal para aumentar seu faturamento.
-            </p>
-            <div className="pt-6">
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 bg-white hover:bg-zinc-200 text-black font-mono uppercase text-[11px] py-4.5 px-8 tracking-[0.2em] font-bold transition-all rounded-none group"
-              >
-                🚀 ACELERAR MEU CRESCIMENTO DIGITAL
-                <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
-              </a>
-            </div>
-          </motion.section>
+            <motion.div 
+              initial={{ opacity: 0, y: 80 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="max-w-4xl mx-auto bg-gradient-to-br from-[#0c0c0e] to-black border border-[#b89047]/30 p-8 md:p-12 relative flex flex-col md:flex-row items-center gap-10 overflow-hidden group"
+            >
+              {/* Highlight effects */}
+              <div className="absolute inset-0 bg-[#b89047]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+              <div className="absolute -inset-x-full top-0 h-[1px] bg-gradient-to-r from-transparent via-[#b89047] to-transparent group-hover:animate-shimmer pointer-events-none opacity-50"></div>
+              <div className="absolute -inset-x-full bottom-0 h-[1px] bg-gradient-to-r from-transparent via-[#b89047] to-transparent group-hover:animate-shimmer pointer-events-none opacity-50" style={{ animationDelay: '1s' }}></div>
+              
+              <span className="absolute top-2 left-2 text-[#b89047] font-mono text-[9px] pointer-events-none">+</span>
+              <span className="absolute top-2 right-2 text-[#b89047] font-mono text-[9px] pointer-events-none">+</span>
+              <span className="absolute bottom-2 left-2 text-[#b89047] font-mono text-[9px] pointer-events-none">+</span>
+              <span className="absolute bottom-2 right-2 text-[#b89047] font-mono text-[9px] pointer-events-none">+</span>
+
+              <div className="flex-1 space-y-6 text-left relative z-10">
+                <h3 className="text-xl md:text-2xl font-display font-bold text-white uppercase tracking-tight">
+                  Do Zero à <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e2c28a] to-[#b89047] drop-shadow-[0_0_15px_rgba(226,194,138,0.5)]">Autoridade Digital</span>
+                </h3>
+                <p className="text-zinc-300 font-sans font-light leading-relaxed text-base">
+                  Aprenda o passo a passo definitivo para <strong className="font-medium text-white">monetizar suas habilidades</strong> prestando serviços e criando conteúdo altamente lucrativo na internet.
+                </p>
+                <p className="text-zinc-400 font-sans font-light leading-relaxed text-sm">
+                  Mais do que técnicas de vendas isoladas, o <strong>Ready2Work</strong> te prepara para construir um caráter profissional inabalável. Entregue um trabalho de excelência e torne-se uma referência reconhecida e muito bem paga no mercado digital.
+                </p>
+                
+                <ul className="space-y-3 pt-2">
+                  {[
+                    "Vendas online do absoluto zero",
+                    "Criação de autoridade magnética",
+                    "Prestação de serviços de alto valor",
+                    "Mentalidade e caráter profissional"
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-xs text-zinc-300 font-mono tracking-wide">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#b89047] shadow-[0_0_5px_#b89047]"></div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="pt-6">
+                  <a
+                    href="https://pay.kiwify.com.br/iGpBGGA"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-3 px-8 py-4 w-full md:w-auto bg-gradient-to-r from-[#b89047] to-[#e2c28a] hover:from-[#cda256] hover:to-[#f3d39b] text-black font-mono font-bold uppercase text-[11px] tracking-[0.2em] transition-all duration-300 relative overflow-hidden group/btn shadow-[0_0_20px_rgba(184,144,71,0.3)] hover:shadow-[0_0_30px_rgba(226,194,138,0.5)] transform hover:-translate-y-1"
+                  >
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover/btn:animate-shimmer pointer-events-none"></div>
+                    INSCREVA-SE NO READY2WORK
+                    <ArrowRight size={15} className="group-hover/btn:translate-x-1.5 transition-transform" />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </section>
         </main>
 
         <footer className="border-t border-zinc-900 py-16 text-center text-xs text-zinc-600 print:hidden space-y-8 relative">
